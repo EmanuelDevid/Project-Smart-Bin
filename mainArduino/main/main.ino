@@ -188,7 +188,7 @@ void loop() {
 
   if (mySerial2.available() > 0) {
     String command = mySerial2.readStringUntil('\n');
-    Serial.print("Comando recebido: ");
+    Serial.print(">");
     Serial.println(command);
     if (command.startsWith("CMD:")) {
       command.remove(0, 4); // Remove o prefixo "CMD,"

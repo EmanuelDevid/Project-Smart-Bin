@@ -4,15 +4,6 @@
 #include <WiFi.h>
 #include <BlynkSimpleEsp32.h>
 #include <SoftwareSerial.h>
-// #include "BluetoothSerial.h"
-
-// #if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
-// #error Bluetooth is not enabled! Please run make menuconfig to and enable it
-// #endif
-
-// BluetoothSerial SerialBT;
-
-
 
 // Definição das variáveis globais de WiFi e autenticação
 char auth[] = BLYNK_AUTH_TOKEN;
@@ -39,8 +30,6 @@ int temp, humid, percent;
 // Variáveis de estado
 bool dhtActive = true;
 bool ultrasonicActive = true;
-
-
 
 BLYNK_WRITE(VPIN_SWITCH_DHT) {
   dhtActive = param.asInt(); // Recebe comando do Blynk para ativar/desativar DHT
@@ -69,16 +58,25 @@ void loop() {
 
   if (mySerial1.available() > 0) {
     String data = mySerial1.readStringUntil('\n');
+    data.trim(); // Remove espaços e caracteres indesejados
     Serial.print(">");
     Serial.println(data);
-
     if (data.startsWith("DAT:")) {
       data.remove(0, 4);
-      sscanf(data.c_str(), "%d,%d,%d", &temp, &humid, &percent);
+      int tempCheck, humidCheck, percentCheck;
+      int numScanned = sscanf(data.c_str(), "%d,%d,%d", &tempCheck, &humidCheck, &percentCheck);
 
-      Blynk.virtualWrite(VPIN_TEMP, temp);
-      Blynk.virtualWrite(VPIN_HUMID, humid);
-      Blynk.virtualWrite(VPIN_DIST, percent);
+      if (numScanned == 3) {
+        temp = tempCheck;
+        humid = humidCheck;
+        percent = percentCheck;
+
+        Blynk.virtualWrite(VPIN_TEMP, temp);
+        Blynk.virtualWrite(VPIN_HUMID, humid);
+        Blynk.virtualWrite(VPIN_DIST, percent);
+      } else {
+        Serial.println("Erro ao analisar dados recebidos.");
+      }
     }
   }
 
