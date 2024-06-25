@@ -9,12 +9,12 @@ import time  # Importa a biblioteca time para trabalhar com tempo (controlar o e
 # --- Configurações do Sistema ---
 
 # Configurações do Blynk
-blynk_token = "aEMj2BSxHnip3ZZyZqVnBzrAlQsCEoBY"  # Seu token do Blynk
+blynk_token = "aEMj2BSxHnip3ZZyZqVnBzrAlQsCEoBY"  # token do Blynk
 blynk_server = "blynk.cloud"  # Endereço do servidor Blynk
 
 # Configurações do Telegram
 telegram_bot_token = "7230891112:AAEcrh13eynokGGHYzxmJu75oe8iwi2V5BA"
-telegram_chat_id = "1099425208"  # Substitua pelo seu chat_id
+telegram_chat_id = "1099425208"  # chatId
 
 # --- Limites de Alerta (Ajustados para Sobral-CE) ---
 
